@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Ejercicio 2 de Servicios y Procesos</title>
+    <style>
+        body {
+            text-align: center; /* Centra el texto horizontalmente */
+        }
+
+        #lienzo {
+            margin: 0 auto; /* Centra el lienzo horizontalmente */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="lienzo" width="1024" height="1024"></canvas>
+    <canvas id="lienzodestino" width="1024" height="1024"></canvas>
+
+    <script>
+        var anchura = 1;
+        var contexto = document.getElementById("lienzo").getContext("2d");
+        var contextodestino = document.getElementById("lienzodestino").getContext("2d"); 
+        var foto = new Image(); // Crea un objeto de imagen
+
+        foto.src = "fotoprueba.jpg"; 
+        setTimeout(function(){
+            const tiempoInicio = Date.now(); // Registra el tiempo de inicio
+
+            // Dibuja la imagen en el lienzo en la posición (0, 0)
+            contexto.drawImage(foto, 0, 0);
+
+            var datosdestino = contextodestino.getImageData(0,0,1024,1024);
+
+            for(var x = 0; x < 1024; x++) {
+                for(var y = 0; y < 1024; y++) {
+                    var centro = contexto.getImageData(x, y, 1, 1).data; // Obtiene los datos de color del centro
+                    var centror = centro[0];
+                    var centrog = centro[1];
+                    var centrob = centro[2];
+                    var subcuadrado = contexto.getImageData(x - anchura, y - anchura, anchura * 2, anchura * 2).data; // Obtiene los datos de color del subcuadrado
+                    var borde = false;
+                    for(var i = 0; i < subcuadrado.length; i += 4) { // Se incrementa en 4 para acceder a los componentes R, G, B, A
+                        if (Math.abs(centror - subcuadrado[i]) > 50) { // Compara los componentes de color
+                            borde = true;
+                            break; // Si encuentra un borde, sale del bucle
+                        }
+                    }
+                    if (borde == false) {
+                        contextodestino.fillStyle = "black";
+                        contextodestino.fillRect(x, y, 1, 1);
+                    } else {
+                        contextodestino.fillStyle = "white";
+                        contextodestino.fillRect(x, y, 1, 1);
+                    }
+                }
+            }
+
+            const tiempoFinal = Date.now(); // Registra el tiempo final
+            console.log("El tiempo para calcular este programa ha sido de " + (tiempoFinal - tiempoInicio) + "ms"); // Muestra el tiempo transcurrido en la consola
+        }, 2000); // Espera 2 segundos antes de ejecutar el código
+    </script>
+</body>
+</html>

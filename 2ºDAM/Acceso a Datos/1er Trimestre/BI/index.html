@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso a Datos - BI </title>
+    <link rel="stylesheet" href="css/estilo.css">
+
+    <!-- jQuery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- Scripts -->
+    <script src="js/codigo.js"></script>
+
+</head>
+<body>
+    <div id="contenedor">
+        <div id="selectortabla">
+            <h1>1.- Seleccion de la tabla </h1>
+            <p> Seleccionamos la tabla principal sobre la cual queremos trabajar </p>
+            <select id="seleccionatabla">
+                <option> Selecciona una tabla </option>
+            </select>
+        </div>
+        <div id="selectorcampos">
+            <h1>2.- Seleccion de los campos </h1>
+            <p>Seleccionamos los campos con los que queremos trabajar</p>
+            <div id="seleccionacampos"></div>
+            <div id="selectoralias">
+                <h1>3.- Seleccion el alias de cada campo </h1>
+                <p>Selecciona los nombre de columna que queremos usar (opcional)</p>
+                <table id="seleccionaalias" colpadding = 0 colspacing = 0 cellpadding = 0 cellspacing = 0 width=100%></table>
+            </div>
+            <div id="selectorcondiciones">
+                <h1>4.- Seleccion de las condiciones </h1>
+                <p>Introducimos condiciones para los campos que hemos seleccionado</p>
+                <table id="seleccionacondiciones" colpadding = 0 colspacing = 0 cellpadding = 0 cellspacing = 0 width=100%></table>
+            </div>
+            <div id="selectorlimite">
+                <h1>5.- Seleccion del limite  </h1>
+                <p>Podemos establecer un limite de resultados</p>
+                <div id="seleccionalimite">
+                    <input type="number" id="limite">
+                </div>
+            </div>
+        </div>
+        <div id="sql"></div>
+        <div id="resultadostabla"></div>
+        <div id="resultadosgrafica"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Ejercicio 2 de Servicios y Procesos</title>
+    <style>
+        body {
+            text-align: center; /* Centra el texto horizontalmente */
+        }
+
+        #lienzo {
+            margin: 0 auto; /* Centra el lienzo horizontalmente */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="lienzo" width="351" height="370"></canvas> <!-- Crea un lienzo de dibujo -->
+
+    <script>
+        var contexto = document.getElementById("lienzo").getContext("2d"); // Obtiene el contexto de dibujo 2D del lienzo
+
+        var foto = new Image(); // Crea un objeto de imagen
+
+        foto.src = "perfil.png"; // Establece la fuente de la imagen
+
+        setTimeout(function(){
+            const tiempoInicio = Date.now(); // Registra el tiempo de inicio
+
+            // Dibuja la imagen en el lienzo en la posición (0, 0)
+            contexto.drawImage(foto, 0, 0);
+
+            // Obtiene los datos de píxeles del lienzo en el área especificada
+            var pixeles = contexto.getImageData(0, 0, 351, 370);
+
+            // Itera a través de los datos de píxeles y realiza una operación de inversión de colores
+            for (var i = 0; i < pixeles.data.length; i += 4) {
+                pixeles.data[i] = 255 - pixeles.data[i]; // Invierte el componente rojo
+                pixeles.data[i + 1] = 255 - pixeles.data[i + 1]; // Invierte el componente verde
+                pixeles.data[i + 2] = 255 - pixeles.data[i + 2]; // Invierte el componente azul
+            }
+
+            // Coloca los datos de píxeles modificados en el lienzo
+            contexto.putImageData(pixeles, 0, 0);
+
+            const tiempoFinal = Date.now(); // Registra el tiempo final
+            console.log("El tiempo para calcular este programa ha sido de " + (tiempoFinal - tiempoInicio) + "ms"); // Muestra el tiempo transcurrido en la consola
+        }, 2000); // Espera 2 segundos antes de ejecutar el código
+    </script>
+</body>
+</html>

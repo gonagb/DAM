@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<articulos>
+
+    <articulo categoria="programacion">
+        <titulo>Titulo del primer curso</titulo>
+        <subtitulo>Pequeña descripcion del curso</subtitulo>
+        <descripcion>Información completa del curso</descripcion>
+        <imagen>img/curso.jpg</imagen>
+    </articulo>
+
+    <articulo categoria="diseño">
+        <titulo>Titulo del curso</titulo>
+        <subtitulo>Pequeña descripcion del curso</subtitulo>
+        <descripcion>Información completa del curso</descripcion>
+        <imagen>img/curso.jpg</imagen>
+    </articulo>
+
+    <articulo categoria="interacciones">
+        <titulo>Titulo del curso</titulo>
+        <subtitulo>Pequeña descripcion del curso</subtitulo>
+        <descripcion>Información completa del curso</descripcion>
+        <imagen>img/curso.jpg</imagen>
+    </articulo>
+
+    <articulo categoria="navegador">
+        <titulo>Titulo del curso</titulo>
+        <subtitulo>Pequeña descripcion del curso</subtitulo>
+        <descripcion>Información completa del curso</descripcion>
+        <imagen>img/curso.jpg</imagen>
+    </articulo>
+
+</articulos>

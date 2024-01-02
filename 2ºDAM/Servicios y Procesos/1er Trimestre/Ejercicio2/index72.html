@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 2 de Servicios y Procesos</title>
+    <style>
+        body {
+            text-align: center; /* Centra el texto horizontalmente */
+        }
+
+        #lienzo, #contienecanvas {
+            margin: 0 auto; /* Centra el lienzo horizontalmente */
+        }
+        #contienecanvas{
+            width: 1024px;
+            height: 1024px;
+            position: relative;
+        }
+        #contienecanvas canvas{
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="lienzo" width="1024" height="1024"></canvas>
+    <div id="contienecanvas">
+    <canvas id="lienzodestino" width="1024" height="1024"></canvas> 
+    <canvas id="lienzobuckets" width="1024" height="1024"></canvas> 
+    </div>
+    <script>
+        var umbral = 10;
+        var anchurabucket = 32;
+        var x = 0;
+        var y = 0;
+        var contexto = document.getElementById("lienzo").getContext("2d");
+        var contextodestino = document.getElementById("lienzodestino").getContext("2d");
+        var contextobuckets = document.getElementById("lienzobuckets").getContext("2d"); 
+        var temporizador;
+        var foto = new Image(); // Crea un objeto de imagen
+        foto.src = "fotoprueba.jpg"; 
+
+
+        var trabajador = new Array();
+
+        // la super function
+        setTimeout(function(){
+            const tiempoInicio = Date.now(); 
+            contexto.drawImage(foto, 0, 0);
+     
+            var numeroDeNucleos = navigator.hardwareConcurrency;
+            for (var i=0;i<numeroDeNucleos;i++){
+            trabajador[i] = new Worker ("tarea7.js");
+            trabajador[i].onmessage = function(datos){
+                contextodestino.putImageData(datos.data.resultado, datos.data.mix, datos.data.miy);
+                x += anchurabucket;
+                if(x > 1024) {
+                    x = 0;
+                    y += anchurabucket;
+                }
+                if(y < 1024) {
+                    console.log("voy a lanzar con: "+i+"-"+x+"-"+y)
+                    bucle(datos.data.miidworker, x, y);
+                }
+            }
+            bucle (i,x,y)
+        }
+       
+
+            const tiempoFinal = Date.now(); // Registra el tiempo final
+            console.log("El tiempo para calcular este programa ha sido de " + (tiempoFinal - tiempoInicio) + "ms"); // Muestra el tiempo transcurrido en la consola
+            
+        }, 2000); // Espera 2 segundos antes de ejecutar el código
+
+        function bucle(i, x, y) {
+            
+            var indice = i;
+   
+            contextobuckets.fillRect(x, y, anchurabucket, anchurabucket);
+            contextobuckets.clearRect(x+1, y+1, anchurabucket-2, anchurabucket);
+
+            console.log("en el bucle devuelvo"+i+"-"+x+"-"+y)
+            contextobuckets.stroke();
+
+            var pixeles = contexto.getImageData(x, y, anchurabucket, anchurabucket);
+            var pixelesdestino = contextodestino.getImageData(0, 0, anchurabucket, anchurabucket)
+            json = {
+                px : pixeles,
+                pxdst : pixelesdestino,
+                mix : x,
+                miy : y,
+                miumbral : umbral,
+                miab : anchurabucket,
+                idworker : i
+            }
+            console.log("el indice del trabajador es: "+indice)
+            trabajador[indice].postMessage(json);
+        }
+    </script>
+</body>
+</html>

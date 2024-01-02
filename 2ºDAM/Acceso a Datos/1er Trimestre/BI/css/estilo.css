@@ -1,0 +1,70 @@
+*{
+    padding: 0;
+    margin: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+}
+
+#contenedor{
+    padding: 20px;
+}
+
+select{
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#sql{
+    background: black;
+    color: white;
+    padding: 20px;
+    font-family: monospace;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#seleccionacampos{
+    columns: 3;
+    padding: 20px;
+}
+
+input[type="checkbox"]{
+    padding: 5px;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+table th{
+    background: grey;
+    color: white;
+}
+table tr:nth-child(odd){
+    background: #777;
+}
+table tr td{
+    padding: 5px;
+}
+
+.condicion{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#selectorcondiciones{
+columns: 3;
+column-gap: 3;
+display: grid;
+}
+
+#seleccionalimite{
+    width: 80%;
+}
+
+input[type="text"],input[type="number"]{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 5px;
+    margin-right: 5px;
+}

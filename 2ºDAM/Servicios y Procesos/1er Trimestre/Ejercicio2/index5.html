@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Ejercicio 2 de Servicios y Procesos </title>
+</head>
+<body>
+
+    <script>
+        var edad = 27;
+        var nombre = "Goncho"
+        var json = {edad:30, nombre: "Goncho"}
+
+        var numeroDeNucleos = navigator.hardwareConcurrency;
+
+        console.log("Mi PC tiene ahora mismo "+numeroDeNucleos+" núcleos")
+
+        var trabajador = new Array();
+        for (var i = 0; i < numeroDeNucleos; i++) {
+            trabajador[i] = new Worker("tarea5.js");
+            // Asignar un identificador único a cada trabajador
+            trabajador[i].id = i;
+            trabajador[i].postMessage(json);
+            trabajador[i].onmessage = function(datos){
+                console.log("Núcleo " + this.id + " dice: " + datos.data);
+            }
+        }
+    </script>
+</body>
+</html>

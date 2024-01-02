@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semana 6 de Servicios y Procesos</title>
+
+<style>
+    html,body{padding: 0px; margin: 0px; overflow: hidden;}
+    canvas{
+        border: 1px solid grey;
+        image-rendering: optimizeSpeed;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: -o-crisp-edges;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: pixelated;
+        image-rendering: optimize-contrast;
+        -ms-interpolation-mode: nearest-neighbor;
+    }
+    #contienegonstats{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        background: black;
+        width: 64px;
+        height: 32px;
+    }
+    #gonstats{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        background: black;
+    }    
+    #gonstats2{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+    } 
+</style>
+</head>
+<body>
+    <!-- Vamos a realizar el juego de la vida, estas son las reglas: 
+
+        - Una célula muerta con exactamente 3 células vecinas vivas "nace" (es decir, al turno siguiente estará viva)
+        - Una célula viva con 2 o 3 células vecinas vivas, sigue viva; en otro caso, muere (por soledad o superpoblación)
+    
+    -->
+
+    <canvas id="lienzo" width="512" height="512"></canvas> 
+    <div id="contienegonstats">
+        <canvas width="64px" height="32px" id="gonstats"></canvas> <!-- Un lienzo para estadísticas del juego. -->
+        <canvas width="64px" height="32px" id="gonstats2"></canvas> <!-- Otro lienzo para estadísticas. -->
+    </div>
+<script>
+    var anchura = window.innerWidth; 
+    var altura = window.innerHeight;
+    // Ajusta el tamaño del lienzo para que coincida con la anchura y altura de la ventana.
+    document.getElementById("lienzo").width = anchura;
+    document.getElementById("lienzo").height = altura;
+
+    // Obtiene el contexto 2D del lienzo para realizar dibujos.
+    var contexto = document.getElementById("lienzo").getContext("2d", { willReadFrequently: true });
+    // Configura el color de relleno inicial del lienzo como blanco (rgb(255,255,255)) y lo llena.
+    contexto.fillStyle = "rgb(255,255,255)";
+    contexto.fillRect(0, 0, anchura, altura); // Rellena el lienzo con un color inicial.
+    // Obtiene una matriz de datos de píxeles en el lienzo para su posterior manipulación.
+    var datoscanvas = contexto.getImageData(0, 0, anchura, altura);
+    // Inicializa un arreglo llamado "pixel" para representar el estado de las células en el juego.
+    var pixel = new Array();
+
+    // Inicializa cada píxel en función de un valor aleatorio (0 o 1) para simular células vivas o muertas.
+    for (var i = 0; i < anchura * altura; i++) {
+        if (Math.random() < 0.2) {
+            pixel.push(1); // 20% de probabilidad de estar vivo.
+        } else {
+            pixel.push(0); // 80% de probabilidad de estar muerto.
+        }
+    }
+
+    // Rellena el lienzo con los valores iniciales de las células (blanco y negro).
+    contexto.putImageData(datoscanvas, 0, 0);
+
+    // Obtiene los contextos 2D para los dos lienzos de estadísticas, "gonstats" y "gonstats2".
+    contextogonstats = document.getElementById("gonstats").getContext("2d");
+    contextogonstats2 = document.getElementById("gonstats2").getContext("2d");
+    // Configura la fuente y el color de relleno del lienzo de estadísticas.
+    contextogonstats.font = "10px Arial";
+    contextogonstats.fillStyle = "black";
+    // Llena el lienzo de estadísticas con un color negro y lo inicializa.
+    contextogonstats.fillRect(0, 0, 64, 32);
+    // Inicializa una matriz llamada "gonstatshistoria" para almacenar datos de estadísticas (no se utiliza aquí).
+    gonstatshistoria = new Array();
+    // Inicializa las variables de tiempo de inicio y tiempo final para el cálculo de FPS.
+    var gonstatstiempoinicio = 0;
+    var gonstatstiempofinal = 0;
+    // Establece un temporizador que ejecutará la función "bucle" cada segundo (1000 ms).
+    var temporizador = setTimeout(bucle, 1000);
+
+function bucle(){
+    gonstatstiempoinicio = Date.now();  // Registra el tiempo de inicio del bucle.
+
+    // Primero, crea una copia temporal de la matriz 'pixel'.
+    var pixeltemp = pixel.slice();
+        
+    // Recorre cada píxel en el lienzo.
+    for(var i = 0; i < pixel.length; i++){
+        var numerovivas = 0;
+
+        // Calcula el número de células vecinas vivas.
+        numerovivas += pixeltemp[i-anchura-1];
+        numerovivas += pixeltemp[i-anchura];
+        numerovivas += pixeltemp[i-anchura+1];
+        numerovivas += pixeltemp[i-1];
+        numerovivas += pixeltemp[i+1];
+        numerovivas += pixeltemp[i+anchura-1];
+        numerovivas += pixeltemp[i+anchura];
+        numerovivas += pixeltemp[i+anchura+1];
+
+        // Aplica las reglas del "Juego de la Vida" para actualizar el estado de la célula actual.
+        if(pixeltemp[i] == 0){
+            if(numerovivas == 3){
+                pixel[i] = 1;  // Célula muerta "nace".
+            }else{
+                pixel[i] = 0;  // Célula muerta sigue muerta.
+            }
+        }else{
+            if(numerovivas == 2 || numerovivas == 3){
+                pixel[i] = 1;  // Célula viva sigue viva.
+            }else{
+                pixel[i] = 0;  // Célula viva muere por soledad o superpoblación.
+            }
+        }
+
+        // Actualiza los datos de píxeles en el lienzo.
+        datoscanvas.data[i*4] = 255-pixel[i]*255;
+        datoscanvas.data[i*4+1] = 255-pixel[i]*255;
+        datoscanvas.data[i*4+2] = 255-pixel[i]*255;
+        datoscanvas.data[i*4+3] = 255;
+    }
+
+        contexto.putImageData(datoscanvas, 0, 0);  // Actualiza el lienzo con los nuevos datos.
+
+        gonstatstiempofinal = Date.now();  // Registra el tiempo de finalización del bucle.
+
+        // Calcula los fotogramas por segundo (FPS) y ajusta el color del indicador de FPS.
+        var fps = Math.round(1000/(gonstatstiempofinal-gonstatstiempoinicio));
+        
+        if(fps >= 50){contextogonstats.fillStyle = "blue"}  // Azul para FPS >= 50.
+        if(fps < 45){contextogonstats.fillStyle = "red"}  // Rojo para FPS < 45.
+        if(fps < 40){contextogonstats.fillStyle = "green"}  // Verde para FPS < 40.
+
+        // Dibuja el indicador de FPS en el lienzo.
+        contextogonstats.fillRect(62,30,1,0-fps);
+        var datos = contextogonstats.getImageData(2,1,64,30);
+        contextogonstats.putImageData(datos,1,1);
+
+        // Borra el contenido del segundo lienzo de estadísticas.
+        contextogonstats2.clearRect(0,0,64,32);
+        contextogonstats2.fillStyle = "white";
+        
+        // Muestra el valor de FPS en el segundo lienzo de estadísticas.
+        contextogonstats2.fillText(fps+"fps",1,25);
+
+        clearTimeout(temporizador);  // Limpia el temporizador actual.
+        temporizador = setTimeout("bucle()",0);  // Establece un nuevo temporizador para ejecutar el bucle.
+    }
+
+</script>
+</body>
+</html>

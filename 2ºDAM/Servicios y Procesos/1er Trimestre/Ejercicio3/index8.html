@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semana 3 de Servicios y Procesos</title>
+</head>
+<body>
+    <canvas id="lienzo" width="1024" height="1024"></canvas>
+    <script>
+        var numerotrabajadores = 150;
+        var trabajadores = new Array();
+        var personajes = new Array();
+        var contexto = document.getElementById("lienzo").getContext("2d");
+        var tempo;
+
+        for (var i = 0; i < numerotrabajadores; i++) {
+            trabajadores[i] = new Worker("tarea8.js");
+            trabajadores[i].postMessage({ id: i });
+            personajes[i] = { x: 0, y: 0, r: 0, g: 0, b: 0, id: i };
+            trabajadores[i].onmessage = function (event) {
+                personajes[event.data.id].x = event.data.x;
+                personajes[event.data.id].y = event.data.y;
+                personajes[event.data.id].r = event.data.mir;
+                personajes[event.data.id].g = event.data.mig;
+                personajes[event.data.id].b = event.data.mib;
+                personajes[event.data.id].tam = event.data.tam;
+
+
+            }
+        }
+
+        inicio();
+
+        function inicio() {
+            tempo = setTimeout(bucle, 1000);
+        }
+
+        function bucle() {
+            contexto.fillStyle = "rgba(255,255,255,0.1)"
+            contexto.fillRect(0,0,1024,1024)
+            for (var i = 0; i < numerotrabajadores; i++) {
+                contexto.fillStyle = "rgb("+personajes[i].r+","+personajes[i].g+","+personajes[i].b+")";
+                contexto.fillRect(personajes[i].x, personajes[i].y,personajes[i].tam, personajes[i].tam);
+                trabajadores[i].postMessage({ id: i, otros: personajes, });
+
+            }
+            clearTimeout(tempo);
+            tempo = setTimeout(bucle, 33);
+        }
+    </script>
+</body>
+</html>
