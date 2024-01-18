@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto Chat</title>
+    <style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+    
+    body,main{
+        width:100%;
+        height:100%;
+        font-family: system-ui;
+    }
+    #mensajes{
+        position:relative;
+        height:90%;
+        width:80%;
+        overflow-y:scroll;
+    }
+        article{
+            width:100%;
+            padding:20px;
+            box-sizing: border-box;
+            margin-bottom:10px;
+            background: #36bfe9;
+            border-radius:10px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <section id="mensajes">
+            Mensajes
+        </section>
+        <section>
+            <input type="text" id="mensaje">
+        </section>
+    </main>
+    <script>
+        document.getElementById("mensaje").onkeydown = function(e){
+            if(e.key == "Enter"){
+                console.log("Enviaste el mensaje la pulsar Enter");
+                var mensaje = this.value;
+                fetch("/envia?mensaje="+mensaje)
+                document.getElementById("mensaje").value = ""
+
+            } 
+        }
+        var temp = setTimeout("recibe()",1000)
+        function recibe(){
+            console.log("Recibiendo mensajes")
+            fetch("/recibe")
+            .then(function(response){
+                return response.json()
+            })
+            .then(function(response){
+                console.log(response)
+                document.getElementById("mensajes").innerHTML = ""
+                for(var i = 0;i<response.length;i++){
+                    document.getElementById("mensajes").innerHTML +=
+                    "<article>"+response[i].mensaje+"</article>"
+                }
+                    document.getElementById("mensajes").scrollTop = 10000
+            })
+            clearTimeout(temp)
+            temp = setTimeout("recibe()",1000)
+        }
+    </script>
+</body>
+</html>
