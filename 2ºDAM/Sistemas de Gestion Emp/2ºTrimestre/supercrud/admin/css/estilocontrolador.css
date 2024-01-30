@@ -1,0 +1,17 @@
+body{
+font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+
+.campo label {
+    font: 2rem sans-serif;
+    padding: 0px;
+    margin: 0px;
+}
+.campo p {
+    font-size: 0.9rem;
+    color: #777;
+}
+.requerido {
+    color: red;
+}
