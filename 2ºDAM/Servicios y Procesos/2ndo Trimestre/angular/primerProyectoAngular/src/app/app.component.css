@@ -1,0 +1,61 @@
+/* Estilo General del Body */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #f4f4f4;
+  }
+  
+  /* Sección de Bienvenida */
+  #bienvenida {
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 60px 0;
+    text-align: center;
+  }
+  
+  /* Sección Sobre Mí */
+  #sobre-mi {
+    padding: 50px 15px;
+  }
+  
+  /* Sección de Proyectos */
+  #proyectos {
+    background-color: #eeeeee;
+    padding: 50px 15px;
+  }
+  
+  #proyectos h3 {
+    color: #007bff;
+  }
+  
+  /* Sección de Habilidades */
+  #habilidades {
+    padding: 50px 15px;
+  }
+  
+  #habilidades ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  #habilidades li {
+    background-color: #007bff;
+    color: #ffffff;
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 5px;
+  }
+  
+  /* Sección de Contacto */
+  #contacto {
+    background-color: #333;
+    color: #ffffff;
+    text-align: center;
+    padding: 50px 15px;
+  }
+  
+  /* Estilos adicionales y responsivos pueden ser agregados aquí */
+  
