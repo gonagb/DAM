@@ -12,7 +12,7 @@ class Persona:
         self.posy = random.randint(0,512)
         self.radio = 30
         self.direccion = random.randint(0,360)
-        self.color = "orange"
+        self.color = "green"
         self.entidad = ""
     def dibuja(self):
         self.entidad = lienzo.create_oval(

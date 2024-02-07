@@ -1,41 +1,39 @@
 import random
 
-import random
-
-print("Piedra, Papel o Tijera, vO.4")
+print("Piedra, Papel o Tijera, vO.5")
 def bucle():
-    print("1 = piedra")
-    print("2 = papel")
-    print("3 = tijera")
-    tirada = int(input("escoge tu tirada: "))
+    print("1 = PIEDRA")
+    print("2 = PAPEL")
+    print("3 = TIJERA")
+    tirada = int(input("Escoge tu opción: "))
 
     tiradaordenador = random.randint(1,3)
 
     if tiradaordenador == 1:
-        print ("el ordenador ha sacado piedra")
+        print ("La máquina ha escogido: piedra")
     elif tiradaordenador == 2:
-        print ("el ordenador ha sacado papel")
+        print ("La máquina ha escogido: papel")
     elif tiradaordenador == 3:
-        print ("el ordenador ha sacado tijera")
+        print ("La máquina ha escogido: tijera")
 
     if tirada == 1 and tiradaordenador == 1:
-        print ("empate")
+        print ("¡EMPATE!")
     elif tirada == 1 and tiradaordenador == 2:
-        print ("maquina gana")
+        print ("Máquina gana")
     elif tirada == 1 and tiradaordenador == 3:
-        print ("jugador gana")
+        print ("Has ganado! ")
     elif tirada == 2 and tiradaordenador == 1:
-        print ("jugador gana")
+        print ("Has ganado! ")
     elif tirada == 2 and tiradaordenador == 2:
-        print ("empate")
+        print ("EMPATE!")
     elif tirada == 2 and tiradaordenador == 3:
-        print ("maquina gana")
+        print ("Máquina gana")
     elif tirada == 3 and tiradaordenador == 1:
-        print ("maquina gana")
+        print ("Máquina gana")
     elif tirada == 3 and tiradaordenador == 2:
-        print ("jugador gana")
+        print ("Has ganado! ")
     elif tirada == 3 and tiradaordenador == 3:
-        print ("empate")
+        print ("EMPATE!")
     bucle()
 bucle()
     
